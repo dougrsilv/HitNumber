@@ -10,7 +10,7 @@ import Foundation
 class HitNumberViewModel {
     
     func numberDaSorte() -> String {
-        return String(Int.random(in: 0...10))
+        return String(Int.random(in: 1...10))
     }
     
     func numberAcert(num: String, numberSorte: String) -> Bool {
