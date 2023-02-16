@@ -56,6 +56,7 @@ extension HitNumberViewController: HitNumberViewDelegate {
         hitNumberView.numberOfAttempts.text =  Strings.attempts + "" + "\(chance)/3"
         hitNumberView.startButton.isEnabled = true
         hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        hitNumberView.luckyNumber.text = ""
     }
     
     func resultNumber() {
