@@ -71,7 +71,7 @@ extension HitNumberViewController: HitNumberViewDelegate {
             hitNumberView.startButton.isEnabled = false
             hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
             hitNumberView.numberOfAttempts.text = Strings.attemptsTree
-        } else if luckyNumber == "" || Int(luckyNumber) ?? 0 <= Int("0") ?? 0 || Int(luckyNumber) ?? 0 > Int("10") ?? 0 {
+        } else if luckyNumber == "" || Int(luckyNumber) ?? 0 <= 0 || Int(luckyNumber) ?? 0 > 10 {
             alertNumber(title: Strings.titleRestrictAlert, message: Strings.messageRestrictAlert)
         }
         else {
