@@ -50,8 +50,7 @@ class HitNumberViewController: UIViewController {
 
 extension HitNumberViewController: HitNumberViewDelegate {
     func startNumber() {
-        let chances = viewModel.luckyNumber()
-        num = chances
+        num = viewModel.luckyNumber()
         round = 0
         hitNumberView.numberOfAttempts.text =  Strings.attempts + "" + "\(round)/3"
         hitNumberView.startButton.isEnabled = true
