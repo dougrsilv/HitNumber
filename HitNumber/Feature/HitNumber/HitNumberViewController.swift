@@ -62,21 +62,24 @@ extension HitNumberViewController: HitNumberViewDelegate {
         
         guard let luckyNumber = hitNumberView.luckyNumber.text else { return }
         
-        if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Acertou" {
+        switch viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) {
+        case "Acertou":
             alertNumber(title: Strings.titleHitAlert, message: Strings.messageHitAlert)
             hitNumberView.startButton.isEnabled = false
             hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
-        } else if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Errou" {
+        case "Errou":
             alertNumber(title: Strings.titleErrorAlert, message: Strings.messageTryAgain)
             round += 1
             hitNumberView.numberOfAttempts.text = Strings.attempts + "" + "\(round)/3"
-        } else if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Passou" {
+        case "Passou":
             alertNumber(title: Strings.titleErrorAlert, message: Strings.messageErrorAlert)
             hitNumberView.startButton.isEnabled = false
             hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
             hitNumberView.numberOfAttempts.text = Strings.attemptsTree
-        } else if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Invalido" {
+        case "Invalido":
             alertNumber(title: Strings.titleRestrictAlert, message: Strings.messageRestrictAlert)
+        default:
+            break
         }
     }
 }
