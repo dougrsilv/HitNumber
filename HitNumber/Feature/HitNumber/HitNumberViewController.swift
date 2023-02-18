@@ -14,7 +14,7 @@ class HitNumberViewController: UIViewController {
     let hitNumberView = HitNumberView()
     let viewModel: HitNumberViewModel
     var num = ""
-    var chance = 0
+    var round = 0
     
     // MARK: Lifecycle
     
@@ -34,7 +34,7 @@ class HitNumberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hitNumberView.delegate = self
-        num = viewModel.numberDaSorte()
+        num = viewModel.luckyNumber()
     }
     
     // MARK: - Properties
@@ -50,10 +50,10 @@ class HitNumberViewController: UIViewController {
 
 extension HitNumberViewController: HitNumberViewDelegate {
     func startNumber() {
-        let chances = viewModel.numberDaSorte()
+        let chances = viewModel.luckyNumber()
         num = chances
-        chance = 0
-        hitNumberView.numberOfAttempts.text =  Strings.attempts + "" + "\(chance)/3"
+        round = 0
+        hitNumberView.numberOfAttempts.text =  Strings.attempts + "" + "\(round)/3"
         hitNumberView.startButton.isEnabled = true
         hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
         hitNumberView.luckyNumber.text = ""
@@ -63,22 +63,21 @@ extension HitNumberViewController: HitNumberViewDelegate {
         
         guard let luckyNumber = hitNumberView.luckyNumber.text else { return }
         
-        if viewModel.numberAcert(num: luckyNumber, numberSorte: num) {
+        if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Acertou" {
             alertNumber(title: Strings.titleHitAlert, message: Strings.messageHitAlert)
             hitNumberView.startButton.isEnabled = false
             hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
-        } else if chance == 2 {
+        } else if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Errou" {
+            alertNumber(title: Strings.titleErrorAlert, message: Strings.messageTryAgain)
+            round += 1
+            hitNumberView.numberOfAttempts.text = Strings.attempts + "" + "\(round)/3"
+        } else if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Passou" {
             alertNumber(title: Strings.titleErrorAlert, message: Strings.messageErrorAlert)
             hitNumberView.startButton.isEnabled = false
             hitNumberView.startButton.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
             hitNumberView.numberOfAttempts.text = Strings.attemptsTree
-        } else if luckyNumber == "" || Int(luckyNumber) ?? 0 <= 0 || Int(luckyNumber) ?? 0 > 10 {
+        } else if viewModel.checkValue(num: luckyNumber, numberSorte: num, cout: round) == "Invalido" {
             alertNumber(title: Strings.titleRestrictAlert, message: Strings.messageRestrictAlert)
-        }
-        else {
-            alertNumber(title: Strings.titleErrorAlert, message: Strings.messageTryAgain)
-            chance += 1
-            hitNumberView.numberOfAttempts.text = Strings.attempts + "" + "\(chance)/3"
         }
     }
 }
